@@ -1,4 +1,6 @@
-# docker-for-frameworks
+# Docker compose for:
+ - Laravel
+ - Yii2
 
 Склонировать в корень
 
