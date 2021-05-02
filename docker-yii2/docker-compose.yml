@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
     nginx:
         build:
@@ -19,26 +19,28 @@ services:
         links:
             - mysql
             - redis
+            - mongo
+            - postgres
         environment:
             - "DB_PORT=3306"
             - "DB_HOST=mysql"
             - "REDIS_PORT=6379"
             - "REDIS_HOST=redis"
-    php-cli:
-        build:
-            context: ./
-            dockerfile: docker/php-cli.docker
-        volumes:
-            - ${APP_PATH_HOST}:/var/www
-        links:
-            - mysql
-            - redis
-        environment:
-            - "DB_PORT=3306"
-            - "DB_HOST=mysql"
-            - "REDIS_PORT=6379"
-            - "REDIS_HOST=redis"
-        tty: true
+#    php-cli:
+#        build:
+#            context: ./
+#            dockerfile: docker/php-cli.docker
+#        volumes:
+#            - ${APP_PATH_HOST}:/var/www
+#        links:
+#            - mysql
+#            - redis
+#        environment:
+#            - "DB_PORT=3306"
+#            - "DB_HOST=mysql"
+#            - "REDIS_PORT=6379"
+#            - "REDIS_HOST=redis"
+#        tty: true
     mysql:
         image: mysql:5.7
         volumes:
@@ -47,11 +49,11 @@ services:
             - "MYSQL_ROOT_PASSWORD=secret"
             - "MYSQL_USER=app"
             - "MYSQL_PASSWORD=secret"
-            - "MYSQL_DATABASE=nazuniver"
+            - "MYSQL_DATABASE=mysqldb"
         ports:
             - "33061:3306"
     redis:
-        image: redis:3.0
+        image: redis:5.0
         ports:
             - "63791:6379"
     node:
@@ -60,3 +62,19 @@ services:
             - ${APP_PATH_HOST}:/var/www
         working_dir: /var/www
         tty: true
+    mongo:
+        image: mongo
+        ports:
+            - 27017:27017
+        volumes:
+            - ./database/mongo:/data/db
+    postgres:
+        image: postgres:latest
+        ports:
+            - 5432:5432
+        volumes:
+            - ./database/postgres:/data/postgres
+        environment:
+            POSTGRES_PASSWORD: 123456
+            POSTGRES_USER: postgres
+            PGDATA: /data/postgres

@@ -1,35 +1,14 @@
-FROM php:7.1-fpm
+FROM php:7.4-fpm
 RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev g++ openssh-server curl nodejs npm yarn git
 RUN docker-php-ext-install pdo_mysql && docker-php-ext-configure intl && docker-php-ext-install intl
 
-RUN set -xe; \
-    apt-get update -yqq && \
-    pecl channel-update pecl.php.net && \
-    apt-get install -yqq \
-      apt-utils \
-      #
-      #--------------------------------------------------------------------------
-      # Mandatory Software's Installation
-      #--------------------------------------------------------------------------
-      #
-      # Mandatory Software's such as ("mcrypt", "pdo_mysql", "libssl-dev", ....)
-      # are installed on the base image 'laradock/php-fpm' image. If you want
-      # to add more Software's or remove existing one, you need to edit the
-      # base image (https://github.com/Laradock/php-fpm).
-      #
-      # next lines are here becase there is no auto build on dockerhub see https://github.com/laradock/laradock/pull/1903#issuecomment-463142846
-      libzip-dev zip unzip && \
-      docker-php-ext-configure zip --with-libzip && \
-      # Install the zip extension
-      docker-php-ext-install zip && \
-      php -m | grep -q 'zip'
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions /usr/local/bin/
 
 RUN chmod uga+x /usr/local/bin/install-php-extensions && sync && \
-    install-php-extensions gd xdebug imagick
+    install-php-extensions gd xdebug imagick zip
 
 CMD ["php-fpm"]
 EXPOSE 9000
