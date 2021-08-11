@@ -1,6 +1,7 @@
 # Docker compose for:
  - Laravel
  - Yii2 (php-fpm 7.4, mysql, mongodb, postgres, redis-5)
+ - Symfony (nginx latest, php-fpm 7.4, postgres-13.3, redis-5, mailcatcher, rabbitmq)
 
 Склонировать в корень
 

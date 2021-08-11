@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+    nginx:
+        container_name: app-nginx
+        build:
+            context: ./nginx
+        volumes:
+            - ${APP_PATH_HOST}:${APP_DIR_TO_PATH}
+        tty: true
+        ports:
+            - "8080:80"
+        links:
+            - php-fpm
+
+    php-fpm:
+        container_name: app-php-fpm
+        build:
+            context: ./php-fpm
+        volumes:
+            - ${APP_PATH_HOST}:${APP_DIR_TO_PATH}
+        tty: true
+        links:
+            - postgres
+            - redis
+            - rabbitmq
+        environment:
+            - "DB_PORT=5432"
+            - "DB_HOST=postgres"
+            - "REDIS_PORT=6379"
+            - "REDIS_HOST=redis"
+        
+    redis:
+        container_name: app-redis
+        image: redis:5.0
+        ports:
+            - "6379:6379"
+
+    postgres:
+        container_name: app-postgres
+        image: postgres:13.3
+        ports:
+            - 5432:5432
+        volumes:
+            - ${DB_PATH_HOST}/postgres:/data/postgres
+        tty: true
+        environment:
+            POSTGRES_PASSWORD: 123456
+            POSTGRES_USER: postgres
+            PGDATA: /data/postgres
+            
+    mailer:
+        container_name: app-mailer
+        image: schickling/mailcatcher
+        ports:
+            - "1025:1025"
+            - "1080:1080"
+    rabbitmq:
+        container_name: app-rabbitmq
+        image: rabbitmq:3.9-management
+        ports:
+            - "5672:5672"
+            - "15672:15672"
