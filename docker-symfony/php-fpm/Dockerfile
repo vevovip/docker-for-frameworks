@@ -16,7 +16,7 @@ RUN apt-get install -y supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
-RUN install-php-extensions amqp gd mcrypt xsl intl zip bz2 mbstring pdo_mysql pdo_pgsql mysqli bcmath xdebug
+RUN install-php-extensions amqp gd mcrypt xsl intl zip bz2 mbstring pdo_mysql pdo_pgsql mysqli bcmath xdebug sockets
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
