@@ -1,14 +1,18 @@
-# Docker compose for:
- - Laravel
- - Yii2 (php-fpm 7.4, mysql, mongodb, postgres, redis-5)
- - Symfony (nginx latest, php-fpm 7.4, postgres-13.3, redis-5, mailcatcher, rabbitmq)
+# Docker compose for frameworks Laravel, Symfony:
 
-Склонировать в корень
+ - nginx latest
+ - php-fpm 7.4
+ - postgres-13.3
+ - redis-5
+ - mailcatcher
+ - rabbitmq
+ - XDebug
+ - Opcache
 
-Зайти в папку и запустить ```docker-compose up -d --build```
+Склонировать в корень и прописать пути в .env файле.
+Запустить ```docker-compose up -d --build```
 
-Расширения устанавливаются с помощзью пакета https://github.com/mlocati/docker-php-extension-installer . 
-Для установки расширения, нужно прописать в файл php-fpm.docker
+Расширения устанавливаются с помощью пакета https://github.com/mlocati/docker-php-extension-installer . 
+Для установки расширения, нужно прописать в файл php-fpm.Dockerfile
 
-В контейнере php-fpm уже установлен composer, можно установить зависимости внутри контейнера, команда:
-```composer install --ignore-platform-reqs```
+В контейнере php-fpm уже установлен composer, можно установить зависимости внутри контейнера.
