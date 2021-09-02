@@ -10,9 +10,11 @@ services:
         tty: true
         ports:
             - "8080:80"
+        networks:
+            - dev-back
         links:
             - php-fpm
-
+    
     php-fpm:
         container_name: app-php-fpm
         build:
@@ -24,23 +26,29 @@ services:
             - postgres
             - redis
             - rabbitmq
+        networks:
+            - dev-back
         environment:
             - "DB_PORT=5432"
             - "DB_HOST=postgres"
             - "REDIS_PORT=6379"
             - "REDIS_HOST=redis"
-        
+    
     redis:
         container_name: app-redis
         image: redis:5.0
         ports:
             - "6379:6379"
-
+        networks:
+            - dev-back
+    
     postgres:
         container_name: app-postgres
         image: postgres:13.3
         ports:
-            - 5432:5432
+            - "5432:5432"
+        networks:
+            - dev-back
         volumes:
             - ${DB_PATH_HOST}/postgres:/data/postgres
         tty: true
@@ -48,16 +56,24 @@ services:
             POSTGRES_PASSWORD: 123456
             POSTGRES_USER: postgres
             PGDATA: /data/postgres
-            
+    
     mailer:
         container_name: app-mailer
         image: schickling/mailcatcher
         ports:
             - "1025:1025"
             - "1080:1080"
+        networks:
+            - dev-back
     rabbitmq:
         container_name: app-rabbitmq
-        image: rabbitmq:3.9-management
+        image: rabbitmq:3-management
         ports:
             - "5672:5672"
             - "15672:15672"
+        networks:
+            - dev-back
+
+networks:
+    dev-back:
+        driver: bridge
