@@ -29,6 +29,7 @@ services:
         networks:
             - dev-back
         environment:
+            - PHP_IDE_CONFIG=serverName=myservername
             - "DB_PORT=5432"
             - "DB_HOST=postgres"
             - "REDIS_PORT=6379"
