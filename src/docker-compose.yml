@@ -77,3 +77,4 @@ services:
 networks:
     dev-back:
         driver: bridge
+        name: dev-back-local
