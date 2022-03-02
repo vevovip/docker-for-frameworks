@@ -33,6 +33,9 @@ ADD xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 # Clear package lists
 RUN rm -rf /var/lib/apt/lists/*
 
+#RUN useradd -ms /bin/bash vevovip
+#USER vevovip
+
 WORKDIR /var/www
 CMD ["php-fpm"]
 EXPOSE 9000
