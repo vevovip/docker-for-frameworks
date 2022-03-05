@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:${PHP_VERSION}-fpm
 
 MAINTAINER Roman Akhmetyanov <vevogm@gmail.com>
 
@@ -12,11 +12,8 @@ RUN apt-get update \
     git \
     cron
 
-RUN apt-get install -y supervisor
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
-RUN install-php-extensions amqp gd mcrypt xsl intl zip bz2 mbstring pdo_mysql pdo_pgsql mysqli bcmath xdebug sockets rdkafka
+RUN install-php-extensions amqp gd mcrypt xsl intl zip bz2 mbstring pdo_mysql pdo_pgsql mysqli bcmath xdebug sockets memcached igbinary imagick mongodb rdkafka
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
@@ -32,6 +29,7 @@ ADD xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 # Clear package lists
 RUN rm -rf /var/lib/apt/lists/*
+RUN sed -i '1i openssl_conf = default_conf' /etc/ssl/openssl.cnf && echo "\n[ default_conf ]\nssl_conf = ssl_sect\n[ssl_sect]\nsystem_default = system_default_sect\n[system_default_sect]\nMinProtocol = TLSv1.2\nCipherString = DEFAULT:@SECLEVEL=1" >> /etc/ssl/openssl.cnf
 
 #RUN useradd -ms /bin/bash vevovip
 #USER vevovip
