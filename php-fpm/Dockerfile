@@ -1,3 +1,5 @@
+ARG PHP_VERSION
+
 FROM php:${PHP_VERSION}-fpm
 
 MAINTAINER Roman Akhmetyanov <vevogm@gmail.com>

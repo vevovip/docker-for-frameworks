@@ -19,21 +19,23 @@ services:
         container_name: ${SERVICE_PREFIX}-php-fpm
         build:
             context: ./php-fpm
+            args:
+                - PHP_VERSION=$PHP_VERSION
         volumes:
             - ${APP_PATH_HOST}:${APP_DIR_TO_PATH}
         tty: true
-        links:
-            - postgres
+#        links:
+#            - postgres
 #            - redis
-            - rabbitmq
+#            - rabbitmq
         networks:
             - dev-back
-        environment:
-            - "DB_PORT=5432"
-            - "DB_HOST=postgres"
+#        environment:
+#            - "DB_PORT=5432"
+#            - "DB_HOST=postgres"
 #            - "REDIS_PORT=6379"
 #            - "REDIS_HOST=redis"
-        
+
 #    redis:
 #        container_name: ${SERVICE_PREFIX}-redis
 #        image: redis:5.0
@@ -42,20 +44,20 @@ services:
 #        networks:
 #            - dev-back
 
-    postgres:
-        container_name: ${SERVICE_PREFIX}-postgres
-        image: postgres:13.3
-        ports:
-            - "5432:5432"
-        networks:
-            - dev-back
-        volumes:
-            - ${DB_PATH_HOST}/postgres:/data/postgres
-        tty: true
-        environment:
-            POSTGRES_PASSWORD: 123456
-            POSTGRES_USER: postgres
-            PGDATA: /data/postgres
+#    postgres:
+#        container_name: ${SERVICE_PREFIX}-postgres
+#        image: postgres:13.3
+#        ports:
+#            - "5432:5432"
+#        networks:
+#            - dev-back
+#        volumes:
+#            - ${DB_PATH_HOST}/postgres:/data/postgres
+#        tty: true
+#        environment:
+#            POSTGRES_PASSWORD: 123456
+#            POSTGRES_USER: postgres
+#            PGDATA: /data/postgres
             
 #    mongodb:
 #        image: mongo:latest
@@ -67,7 +69,7 @@ services:
 #            - 27017:27017
 #        volumes:
 #            - ${DB_PATH_HOST}/mongo:/data/db
-            
+
 #    mailer:
 #        container_name: ${SERVICE_PREFIX}-mailer
 #        image: schickling/mailcatcher
@@ -77,14 +79,14 @@ services:
 #        networks:
 #            - dev-back
 
-    rabbitmq:
-        container_name: ${SERVICE_PREFIX}-rabbitmq
-        image: rabbitmq:3-management
-        ports:
-            - "5672:5672"
-            - "15672:15672"
-        networks:
-            - dev-back
+#    rabbitmq:
+#        container_name: ${SERVICE_PREFIX}-rabbitmq
+#        image: rabbitmq:3-management
+#        ports:
+#            - "5672:5672"
+#            - "15672:15672"
+#        networks:
+#            - dev-back
 
 networks:
     dev-back:
