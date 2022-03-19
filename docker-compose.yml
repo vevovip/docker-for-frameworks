@@ -88,8 +88,7 @@ services:
 #            - "5672:5672"
 #            - "15672:15672"
 #        volumes:
-#            - ./rabbitmq/data/:/var/lib/rabbitmq/
-#            - ./rabbitmq/logs/:/var/log/rabbitmq/
+#            - ./rabbitmq/data:/var/lib/rabbitmq
 #        networks:
 #            - dev-back
 
