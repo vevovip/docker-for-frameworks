@@ -41,6 +41,8 @@ services:
 #        image: redis:5.0
 #        ports:
 #            - "6379:6379"
+#        volumes:
+#            - ./redis:/var/lib/redis
 #        networks:
 #            - dev-back
 
@@ -85,6 +87,9 @@ services:
 #        ports:
 #            - "5672:5672"
 #            - "15672:15672"
+#        volumes:
+#            - ./rabbitmq/data/:/var/lib/rabbitmq/
+#            - ./rabbitmq/logs/:/var/log/rabbitmq/
 #        networks:
 #            - dev-back
 
