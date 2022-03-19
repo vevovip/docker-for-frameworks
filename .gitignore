@@ -1,3 +1,5 @@
 .idea
 database
+redis
+rabbitmq
 .env
