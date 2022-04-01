@@ -15,7 +15,7 @@ RUN apt-get update \
     cron
 
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
-RUN install-php-extensions amqp gd mcrypt xsl intl zip bz2 pdo_mysql pdo_pgsql mysqli bcmath xdebug sockets memcached igbinary imagick mongodb rdkafka
+RUN install-php-extensions amqp gd mcrypt xsl intl zip bz2 pdo_mysql pdo_pgsql mysqli bcmath xdebug sockets memcached igbinary imagick mongodb rdkafka redis
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
