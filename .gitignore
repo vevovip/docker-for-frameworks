@@ -3,3 +3,4 @@ database
 redis
 rabbitmq
 .env
+.DS_Store
